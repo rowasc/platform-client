@@ -1,10 +1,10 @@
-module.exports = PostTimelineToolboxDirective;
+module.exports = PostSortingOptionsDirective;
 
-PostTimelineToolboxDirective.$inject = [
+PostSortingOptionsDirective.$inject = [
     'moment',
     '$rootScope'
 ];
-function PostTimelineToolboxDirective(
+function PostSortingOptionsDirective(
     moment,
     $rootScope
 ) {
@@ -15,11 +15,11 @@ function PostTimelineToolboxDirective(
             order: '<',
             onChange: '&'
         },
-        template: require('./post-timeline-toolbox.html'),
-        link: PostTimelineToolboxLink
+        template: require('./post-sorting-options.html'),
+        link: PostSortingOptionsLink
     };
 
-    function PostTimelineToolboxLink($scope) {
+    function PostSortingOptionsLink($scope) {
         $scope.change = change;
 
         activate();

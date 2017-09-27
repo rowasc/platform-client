@@ -12,15 +12,22 @@
 
       <div class="toggle-content init" dropdown-menu>
           <fieldset>
-              <div class="custom-select">
-                  <select ng-model="orderBy" ng-change="change()">
-                      <option value="post_date" translate="post.post_date">Post Date</option>
-                      <option value="created" translate="app.date_created">Date created</option>
-                      <option value="updated" translate="app.date_updated">Date updated</option>
-                  </select>
+              <div class="form-field checkbox">
+                  <label>
+                      <input type="checkbox" id="unlockedOnTop" value="unlockedOnTop" name="unlockedOnTop" ng-model="unlockedOnTop">
+                      <span translate="app.unlocked_posts_top">Unlocked posts on top</span>
+                  </label>
               </div>
-        </fieldset>
-
+          </fieldset>
+          <fieldset>
+                  <div class="custom-select">
+                      <select ng-model="orderBy" ng-change="change()">
+                          <option value="post_date" translate="post.post_date">Post Date</option>
+                          <option value="created" translate="app.date_created">Date created</option>
+                          <option value="updated" translate="app.date_updated">Date updated</option>
+                      </select>
+                  </div>
+            </fieldset>
           <fieldset>
               <div class="form-field radio">
                   <label>

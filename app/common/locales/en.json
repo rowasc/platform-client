@@ -96,7 +96,8 @@
         "add_new_category" : "+ Add new category",
         "sort_by": "Sort By",
         "newest_first": "Newest first",
-        "oldest_first": "Oldest first"
+        "oldest_first": "Oldest first",
+        "unlocked_posts_top": "Unlocked posts on top"
     },
     "toolbar": {
         "searchbar" : {
