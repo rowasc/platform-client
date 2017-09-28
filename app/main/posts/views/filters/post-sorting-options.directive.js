@@ -2,34 +2,36 @@ module.exports = PostSortingOptionsDirective;
 
 PostSortingOptionsDirective.$inject = [
     'moment',
-    '$rootScope'
+    '$rootScope',
+    'PostActiveOrderOptions'
 ];
 function PostSortingOptionsDirective(
     moment,
-    $rootScope
+    $rootScope,
+    PostActiveOrderOptions
 ) {
     return {
         restrict: 'E',
         scope: {
-            orderBy: '<',
-            order: '<',
-            onChange: '&'
         },
         template: require('./post-sorting-options.html'),
         link: PostSortingOptionsLink
     };
 
     function PostSortingOptionsLink($scope) {
-        $scope.change = change;
-
         activate();
 
         function activate() {
-            console.log($scope);
+            var order = PostActiveOrderOptions.getOrder();
+            $scope.orderGroup = {
+                order: order.order,
+                orderBy: order.orderBy,
+                unlockedOnTop: order.unlockedOnTop
+            };
         }
 
-        function change() {
-            $scope.onChange({order: $scope.order, orderBy: $scope.orderBy});
-        }
+        $scope.change = function () {
+            PostActiveOrderOptions.putOrder($scope.orderGroup);
+        };
     }
 }

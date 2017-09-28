@@ -39,19 +39,6 @@
                   <span class="label" translate="post.archived" ng-if="status == 'archived'">Archive</span>
                 </a>
               </li>
-              <!--
-                  <div class="divider"></div>
-              <li>
-                <a href="">
-                  Spam
-                </a>
-              </li>
-              <li>
-                <a href="">
-                  Duplicates
-                </a>
-              </li>
-              -->
             </ul>
           </span>
 
@@ -67,11 +54,11 @@
 
 
         <div class="listing-item" ng-if="posts.length == 0 && hasFilters() && !isLoading.state">
-            <h4 translate>post.no_search_results</h5>
+            <h4 translate>post.no_search_results</h4>
         </div>
 
         <div class="listing-item" ng-if="posts.length == 0 && !hasFilters() && !isLoading.state">
-            <h4 translate>post.no_posts_yet</h5>
+            <h4 translate>post.no_posts_yet</h4>
         </div>
 
         <div class="listing-item" ng-if="posts.length > 0 || isLoading.state">
@@ -88,7 +75,5 @@
                 </button>
             </div>
         </div>
-
-    </div> <!-- /.listing.timeline -->
-
+    </div>
 </div>

@@ -5,6 +5,7 @@ describe('post view list directive', function () {
         isolateScope,
         Notify,
         PostFilters,
+        PostActiveOrderOptions,
         element;
 
     beforeEach(function () {
@@ -60,12 +61,13 @@ describe('post view list directive', function () {
         jasmine.clock().mockDate();
     });
 
-    beforeEach(angular.mock.inject(function (_$rootScope_, $compile, _Notify_, _PostFilters_) {
+    beforeEach(angular.mock.inject(function (_$rootScope_, $compile, _Notify_, _PostFilters_, _PostActiveOrderOptions_) {
         $rootScope = _$rootScope_;
         $scope = _$rootScope_.$new();
 
         Notify = _Notify_;
         PostFilters = _PostFilters_;
+        PostActiveOrderOptions = _PostActiveOrderOptions_;
         $scope.isLoading = {
             state: true
         };

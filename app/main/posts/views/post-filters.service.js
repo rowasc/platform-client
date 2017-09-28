@@ -160,22 +160,3 @@ function PostFiltersService(_, FormEndpoint, TagEndpoint, $q) {
         return entityId;
     }
 }
-
-// clearSelected: function () {
-//     var localDefaults = angular.copy(filterDefaults);
-//     _.each(localDefaults, _.bind(function (value, key) {
-//         this[key] = value;
-//     }, this));
-// },
-// setSelected: function (newFilters) {
-//     var localDefaults = angular.copy(filterDefaults);
-//     newFilters = angular.copy(newFilters);
-
-//     _.each(localDefaults, _.bind(function (defaultValue, key) {
-//         if (_.has(newFilters, key)) {
-//             this[key] = newFilters[key];
-//         } else {
-//             this[key] = defaultValue;
-//         }
-//     }, this));
-// },
