@@ -12,17 +12,11 @@ function FilterSavedSearch() {
 
 FilterSavedSearchController.$inject = ['$scope', '$element', '$attrs', '$rootScope', '$location', 'UserEndpoint', 'SavedSearchEndpoint', '_', 'ModalService'];
 function FilterSavedSearchController($scope, $element, $attrs, $rootScope, $location, UserEndpoint, SavedSearchEndpoint, _, ModalService) {
-    $scope.searchSearches = searchSearches;
-    activate();
-
-    // Reload searches on login / logout events
-    $scope.$on('event:authentication:logout:succeeded', loadSavedSearches);
-    $scope.$on('event:authentication:login:succeeded', loadSavedSearches);
-    $scope.$on('savedSearch:update', loadSavedSearches);
-
+    $scope.selectedSearch = '';
     function activate() {
         loadSavedSearches();
     }
+    activate();
 
     // Load searches + users
     function loadSavedSearches(query) {
@@ -35,11 +29,4 @@ function FilterSavedSearchController($scope, $element, $attrs, $rootScope, $loca
             });
         });
     }
-
-    function searchSearches(query) {
-        loadSavedSearches({
-            q : query
-        });
-    }
-
 }

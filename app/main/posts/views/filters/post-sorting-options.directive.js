@@ -25,7 +25,7 @@ function PostSortingOptionsDirective(
         activate();
 
         function activate() {
-
+            console.log($scope);
         }
 
         function change() {

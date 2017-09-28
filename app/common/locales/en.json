@@ -690,6 +690,7 @@
         "delete_webhook_desc" : "<strong>If you delete this webhook</strong>, all associated webhook events will be lost. Proceed with caution."
     },
     "saved_search": {
+        "select_one": "Select One",
         "visible_to_public" : "This Saved Search is visible to the public",
         "visible_to_you": "This Saved Search is visible to just you and admins",
         "visible_to_roles": "This Saved Search is visible to {{roles}}",

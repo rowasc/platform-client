@@ -58,6 +58,7 @@ angular.module('ushahidi.posts', [])
 .directive('filterLocation', require('./views/filters/filter-location.directive.js'))
 .directive('filterHasLocation', require('./views/filters/filter-has-location.directive.js'))
 .directive('postActiveFilters', require('./views/filters/active-filters.directive.js'))
+.directive('filterSavedSearch', require('./views/filters/filter-saved-search.directive.js'))
 .service('PostFilters', require('./views/post-filters.service.js'))
 .directive('filterModal', require('./views/filters/filter-modal.directive.js'))
 // Share
