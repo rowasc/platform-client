@@ -50,16 +50,16 @@ function PostListController(
     $scope.totalItems = $scope.itemsPerPage;
     $scope.posts = [];
     $scope.groupedPosts = {};
+    $scope.clearPosts = false;
+    $scope.statuses = PostActionsService.getStatuses();
 
     $scope.deletePosts = deletePosts;
     $scope.hasFilters = hasFilters;
     $scope.userHasBulkActionPermissions = userHasBulkActionPermissions;
-    $scope.statuses = PostActionsService.getStatuses();
     $scope.changeStatus = changeStatus;
     $scope.loadMore = loadMore;
     $scope.getPosts = getPosts;
     $scope.resetPosts = resetPosts;
-    $scope.clearPosts = false;
     $scope.clearSelectedPosts = clearSelectedPosts;
     activate();
 

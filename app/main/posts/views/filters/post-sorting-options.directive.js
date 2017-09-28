@@ -19,16 +19,19 @@ function PostSortingOptionsDirective(
     };
 
     function PostSortingOptionsLink($scope) {
-        activate();
-
-        function activate() {
+        /**
+         * This calls for an Inmediately invoked function
+         * @DEVNOTE Ask why activate was being used. Using an IIFE makes me feel confident
+         * because we can't move the activate call to the wrong place if it's not there =)
+         */
+        (function () {
             var order = PostActiveOrderOptions.getOrder();
             $scope.orderGroup = {
                 order: order.order,
                 orderBy: order.orderBy,
                 unlockedOnTop: order.unlockedOnTop
             };
-        }
+        })();
 
         $scope.change = function () {
             PostActiveOrderOptions.putOrder($scope.orderGroup);
