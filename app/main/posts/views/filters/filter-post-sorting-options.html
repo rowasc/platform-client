@@ -1,0 +1,37 @@
+<fieldset>
+    <select name="mySelect" id="mySelect"
+            ng-options="option.labelTranslateKey for option in orderByOptions track by option.value"
+            ng-model="mySelect"></select>
+</fieldset>
+<fieldset>
+    <div class="custom-select">
+        <select ng-model="orderGroup.orderBy" ng-change="change()">
+            <option value="post_date" translate="post.post_date">Post Date</option>
+            <option value="created" translate="app.date_created">Date created</option>
+            <option value="updated" translate="app.date_updated">Date updated</option>
+        </select>
+    </div>
+</fieldset>
+
+<fieldset>
+    <div class="form-field radio">
+        <label>
+            <input type="radio" id="asc" value="asc" name="order" ng-model="orderGroup.order" ng-change="change()">
+            <span translate="app.oldest_first">Oldest first</span>
+        </label>
+    </div>
+    <div class="form-field radio">
+        <label>
+            <input type="radio" id="desc" value="desc" name="order" ng-model="orderGroup.order" ng-change="change()">
+            <span translate="app.newest_first">Newest first</span>
+        </label>
+    </div>
+</fieldset>
+<fieldset>
+  <div class="form-field checkbox">
+      <label>
+          <input type="checkbox" id="unlockedOnTop" value="unlockedOnTop" name="unlockedOnTop" ng-model="orderGroup.unlockedOnTop" ng-change="change()">
+          <span translate="app.unlocked_posts_top">Unlocked posts on top</span>
+      </label>
+  </div>
+</fieldset>

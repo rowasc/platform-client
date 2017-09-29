@@ -19,7 +19,7 @@ function FilterPostsController($scope, $timeout, ModalService, MainsheetService,
     $scope.searchSavedToggle = false;
     $scope.cancel = cancel;
     $scope.applyFilters = applyFilters;
-    $scope.openFilterModal = openFilterModal;
+    $scope.filtersDropdownToggle = false;
     $scope.openSavedModal = openSavedModal;
     activate();
 
@@ -33,14 +33,11 @@ function FilterPostsController($scope, $timeout, ModalService, MainsheetService,
         ModalService.close();
     }
 
-    function openFilterModal() {
-        // Set active task so we know who this attribute will belong to
-        MainsheetService.openTemplate('<filter-modal></filter-modal>', 'app.filter_by', $scope);
-    }
     function applyFilters(event) {
         // ngFormController automatically commits changes to the model ($scope.filters)
         // Just close the dropdown
-        MainsheetService.close();
+        alert(11);
+
     }
 
     function openSavedModal() {

@@ -30,7 +30,7 @@ angular.module('ushahidi.posts', [])
 .directive('postValueEdit', require('./modify/post-value-edit.directive.js'))
 .directive('postTabs', require('./modify/post-tabs.directive.js'))
 .directive('postToolbox', require('./modify/post-toolbox.directive.js'))
-.directive('postSortingOptions', require('./views/filters/post-sorting-options.directive.js'))
+.directive('filterPostSortingOptions', require('./views/filters/filter-post-sorting-options.directive.js'))
 
 // Timeline and Map screen
 .service('PostViewService', require('./views/post-view.service.js'))
@@ -58,7 +58,7 @@ angular.module('ushahidi.posts', [])
 .directive('filterLocation', require('./views/filters/filter-location.directive.js'))
 .directive('filterHasLocation', require('./views/filters/filter-has-location.directive.js'))
 .directive('filterSavedSearch', require('./views/filters/filter-saved-search.directive.js'))
-.directive('filterModal', require('./views/filters/filter-modal.directive.js'))
+.directive('filtersDropdown', require('./views/filters/filters-dropdown.directive.js'))
 // Share
 .directive('postShare', require('./views/share/post-share.directive.js'))
 .directive('shareMenu', require('./views/share/share-menu.directive.js'))

@@ -3,7 +3,7 @@ module.exports = [
     function (_) {
     var CONST_ORDER = {
         orderBy: {
-            value: 'post_date',
+            value: 'created',
             labelTranslateKey: 'global_filter.sort.orderBy.filter_type_tag',
             options: [{
                 value: 'post_date',
@@ -35,15 +35,17 @@ module.exports = [
         labelTranslateKey: 'global_filter.sort.filter_type_tag',
         get: function () {
             var returnValue = {};
-            _.each(CONST_ORDER, function(key, value) {
+            _.each(CONST_ORDER, function (key, value) {
                 returnValue[value] = key.value;
             });
+            return returnValue;
         },
         getDefinition: function () {
-            return order;
+            return CONST_ORDER;
         },
         put: function (orderObj) {
             order = orderObj;
+            _.merge(orderObj, CONST_ORDER);
             return order;
         },
         reset: function () {
