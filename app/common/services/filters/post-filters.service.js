@@ -10,8 +10,19 @@ function PostFiltersService(_, FormEndpoint, TagEndpoint, $q) {
 
     // @todo take this out of the service
     // but ensure it happens at the right times
-    activate();
-
+    (function () {
+        {
+            FormEndpoint.queryFresh().$promise.then(function (result) {
+                forms = result;
+                // adding incoming messages to filter
+                forms.push({id: 'none'});
+                filterState.form = filterState.form || [];
+                if (filterState.form.length === 0) { // just in case of race conditions
+                    Array.prototype.splice.apply(filterState.form, [0, 0].concat(_.pluck(forms, 'id')));
+                }
+            });
+        }
+    })();
     return {
         getDefaults: getDefaults,
         getQueryParams: getQueryParams,
@@ -26,17 +37,6 @@ function PostFiltersService(_, FormEndpoint, TagEndpoint, $q) {
         getModeId: getModeId
     };
 
-    function activate() {
-        FormEndpoint.queryFresh().$promise.then(function (result) {
-            forms = result;
-            // adding incoming messages to filter
-            forms.push({id: 'none'});
-            filterState.form = filterState.form || [];
-            if (filterState.form.length === 0) { // just in case of race conditions
-                Array.prototype.splice.apply(filterState.form, [0, 0].concat(_.pluck(forms, 'id')));
-            }
-        });
-    }
 
     // Get filterState
     function getFilters() {

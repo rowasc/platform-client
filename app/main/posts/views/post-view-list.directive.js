@@ -92,7 +92,7 @@ function PostListController(
 
     function getPosts(query) {
         query = query || PostFilters.getQueryParams($scope.filters);
-        var order = PostActiveOrderOptions.getOrder();
+        var order = PostActiveOrderOptions.get();
         var postQuery = _.extend({}, query, {
             offset: ($scope.currentPage - 1) * $scope.itemsPerPage,
             limit: $scope.itemsPerPage,

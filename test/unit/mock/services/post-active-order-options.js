@@ -1,13 +1,13 @@
 module.exports = [function () {
     return {
-        getOrder: function () {
+        get: function () {
             return {
                 orderBy: 'post_date',
                 order: 'desc',
                 unlockedOnTop: false
             };
         },
-        putOrder: function (obj) {
+        put: function (obj) {
             return {
                 orderBy: 'post_date',
                 order: 'desc',

@@ -25,7 +25,7 @@ function PostSortingOptionsDirective(
          * because we can't move the activate call to the wrong place if it's not there =)
          */
         (function () {
-            var order = PostActiveOrderOptions.getOrder();
+            var order = PostActiveOrderOptions.get();
             $scope.orderGroup = {
                 order: order.order,
                 orderBy: order.orderBy,
@@ -34,7 +34,7 @@ function PostSortingOptionsDirective(
         })();
 
         $scope.change = function () {
-            PostActiveOrderOptions.putOrder($scope.orderGroup);
+            PostActiveOrderOptions.put($scope.orderGroup);
         };
     }
 }

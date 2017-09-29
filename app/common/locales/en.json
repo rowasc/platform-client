@@ -297,9 +297,16 @@
             "all_stages" : "All Tasks"
         },
         "collections" : {
+            "filter_type_tag": "Collection: ",
             "collections" : "Collections",
             "all_collections" : "All Collections",
             "search_collections" : "Search Collections"
+        },
+        "saved_search": {
+            "filter_type_tag" : "Saved Search: "
+        },
+        "sort": {
+            "filter_type_tag": "Sort: "
         },
         "filter_tabs" : {
             "q": "Keyword",

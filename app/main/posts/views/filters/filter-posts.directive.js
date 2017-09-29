@@ -14,8 +14,8 @@ function FilterPostsDirective() {
     };
 }
 
-FilterPostsController.$inject = ['$scope', '$timeout','ModalService', 'PostFilters'];
-function FilterPostsController($scope, $timeout, ModalService, PostFilters) {
+FilterPostsController.$inject = ['$scope', '$timeout','ModalService', 'MainsheetService', 'PostFilters'];
+function FilterPostsController($scope, $timeout, ModalService, MainsheetService, PostFilters) {
     $scope.searchSavedToggle = false;
     $scope.cancel = cancel;
     $scope.applyFilters = applyFilters;
@@ -24,8 +24,6 @@ function FilterPostsController($scope, $timeout, ModalService, PostFilters) {
     activate();
 
     function activate() {
-        // @todo define initial filter values
-        // $scope.$watch('filters', handleFilterChange, true);
     }
 
     function cancel() {
@@ -37,12 +35,12 @@ function FilterPostsController($scope, $timeout, ModalService, PostFilters) {
 
     function openFilterModal() {
         // Set active task so we know who this attribute will belong to
-        ModalService.openTemplate('<filter-modal></filter-modal>', 'app.filter_by', '/img/material/svg-sprite-content-symbol.svg#ic_filter_list_24px', $scope, true, true);
+        MainsheetService.openTemplate('<filter-modal></filter-modal>', 'app.filter_by', $scope);
     }
     function applyFilters(event) {
         // ngFormController automatically commits changes to the model ($scope.filters)
         // Just close the dropdown
-        ModalService.close();
+        MainsheetService.close();
     }
 
     function openSavedModal() {
