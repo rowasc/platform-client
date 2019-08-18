@@ -8,6 +8,7 @@ module.exports = [
     'Authentication',
     'UserEndpoint',
     'ConfigEndpoint',
+    'moment',
 function (
     $rootScope,
     $q,
@@ -17,23 +18,49 @@ function (
     Session,
     Authentication,
     UserEndpoint,
-    ConfigEndpoint
+    ConfigEndpoint,
+    moment
 ) {
     var translate = function (lang) {
-        $translate.use(lang).then(function (langKey) {
-            if (langKey) {
-                $translate.preferredLanguage(langKey);
-                Languages.then(function (languages) {
-                    angular.forEach(languages, function (language) {
-                        if (language.code === langKey) {
-                            $rootScope.rtlEnabled = language.rtl;
+        if (lang !== null) {
+            $translate.use(lang).then(function (langKey) {
+                if (langKey) {
+                    $translate.preferredLanguage(langKey);
+                    Languages.then(function (languages) {
+                        let language = languages.find(l => l.code === langKey);
+
+                        if ($rootScope.rtlEnabled !== language.rtl) {
+                            if (language.rtl) {
+                                require.ensure(
+                                    ['ushahidi-platform-pattern-library/assets/css/rtl-style.min.css'], () => {
+                                        $rootScope.$apply(() => {
+                                            require('ushahidi-platform-pattern-library/assets/css/rtl-style.min.css');
+                                            $rootScope.rtlEnabled = language.rtl;
+                                        });
+                                    }, 'rtl'
+                                );
+                            } else {
+                                $rootScope.rtlEnabled = language.rtl;
+                            }
                         }
                     });
+                }
+            });
+
+            if (lang === 'en') {
+                // Just set moment locale
+                moment.locale('en');
+            } else {
+                // Load locale
+                require(['moment/locale/' + lang + '.js'], function () {
+                    // And then set moment locale
+                    moment.locale(lang);
                 });
             }
-        });
-        // Translating and setting page-title
-        $rootScope.$emit('setPageTitle', $translate.instant($document[0].title));
+
+            // Translating and setting page-title
+            $rootScope.$emit('setPageTitle', $translate.instant($document[0].title));
+        }
     };
 
     var setStartLanguage = function () {
@@ -42,26 +69,37 @@ function (
         });
     };
 
-    var getLanguage = function () {
+    var getLanguage = function (config) {
         return $q(function (resolve, reject) {
                 if (Session.getSessionDataEntry('language')) {
                     resolve(Session.getSessionDataEntry('language'));
+                    return;
                 }
+
+                let configRequest = $q.when(config ? config : ConfigEndpoint.get({id: 'site'}).$promise);
+                let userRequest = $q.when(false);
+
                 if (Authentication.getLoginStatus()) {
-                    UserEndpoint.get({id: 'me'}).$promise.then(function (user) {
-                        if (user.language) {
-                            resolve(user.language);
-                        }
-                    });
+                    userRequest = UserEndpoint.get({id: 'me'}).$promise;
                 }
-                ConfigEndpoint.get({id: 'site'}).$promise.then(function (site) {
-                    site.language ? resolve(site.language) : resolve('en');
+
+                $q.all({
+                    user: userRequest,
+                    config: configRequest
+                }).then(function (result) {
+                    if (result.user && result.user.language) {
+                        resolve(result.user.language);
+                    } else if (result.config.language) {
+                        resolve(result.config.language);
+                    } else {
+                        resolve('en');
+                    }
                 });
             });
     };
 
     var setLanguage = function (code) {
-        Session.setSessionDataEntry({language: code});
+        Session.setSessionDataEntry('language', code);
         if (Authentication.getLoginStatus()) {
             UserEndpoint.get({id: 'me'}).$promise.then(function (user) {
                 user.language = code;

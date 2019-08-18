@@ -6,7 +6,8 @@ describe('authentication interceptor', function () {
         $http,
         CONST,
         mockedSessionData,
-        mockAuthentication;
+        mockAuthentication,
+        mockedDemoDeploymentService;
 
     beforeEach(function () {
         var testApp = makeTestApp()
@@ -15,13 +16,19 @@ describe('authentication interceptor', function () {
         });
 
         mockedSessionData = {
-            accessToken: null
+            accessToken: null,
+            accessTokenExpires: null
         };
         mockAuthentication = {
             loginStatus : false,
             getLoginStatus : function () {
                 return this.loginStatus;
             }
+        };
+
+        mockedDemoDeploymentService =
+        {
+            demoCheck: function () {}
         };
         testApp.service('Session', function () {
             return {
@@ -41,6 +48,9 @@ describe('authentication interceptor', function () {
         })
         .service('Authentication', function () {
             return mockAuthentication;
+        })
+        .service('DemoDeploymentService', function () {
+            return mockedDemoDeploymentService;
         })
         .config(require('app/common/auth/authentication-interceptor.config.js'));
 
@@ -69,6 +79,7 @@ describe('authentication interceptor', function () {
             describe('with an accessToken stored in the Session service', function () {
                 beforeEach(function () {
                     mockedSessionData.accessToken = 'fooBarToken';
+                    mockedSessionData.accessTokenExpires = 9999999999999;
                 });
 
                 it('should add the authorization token header', function () {
@@ -108,25 +119,50 @@ describe('authentication interceptor', function () {
                     };
                 });
 
-                it('should ask the backend for an anonymous access_token' +
-                    'via client_credentials flow and then' +
+                it('should send the request without an authorization header', function () {
+                    $httpBackend.expectGET(CONST.API_URL + '/test-endpoint',
+                        {'Accept': 'application/json, text/plain, */*'}
+                    ).respond(200);
+
+                    $http.get(CONST.API_URL + '/test-endpoint');
+
+                    $httpBackend.flush();
+                });
+
+                it('should send the request without an authorization header, ' +
+                    'and when that fails ask the backend for an anonymous access_token ' +
+                    'via client_credentials flow and then ' +
                     'add the authorization token header', function () {
+                    $httpBackend.expectGET(CONST.API_URL + '/test-endpoint',
+                        {'Accept': 'application/json, text/plain, */*'}
+                    ).respond(401);
 
-                        $httpBackend.expectPOST(CONST.BACKEND_URL + '/oauth/token',
-                            payload
+                    $httpBackend.expectPOST(CONST.BACKEND_URL + '/oauth/token',
+                        payload
                     ).respond(200, {
-                            'access_token': 'someOtherFooBarToken'
-                        });
-
-                        $httpBackend.expectGET(CONST.API_URL + '/test-endpoint',
-                            {'Accept': 'application/json, text/plain, */*',
-                            'Authorization': 'Bearer someOtherFooBarToken'}
-                        ).respond(200);
-
-                        $http.get(CONST.API_URL + '/test-endpoint');
-
-                        $httpBackend.flush();
+                        'access_token': 'someOtherFooBarToken'
                     });
+
+                    $httpBackend.expectGET(CONST.API_URL + '/test-endpoint',
+                        {'Accept': 'application/json, text/plain, */*',
+                        'Authorization': 'Bearer someOtherFooBarToken'}
+                    ).respond(200);
+
+                    $http.get(CONST.API_URL + '/test-endpoint');
+
+                    $httpBackend.flush();
+                });
+
+                it('should send the request without an authorization header ' +
+                    'and ignore failures if ignore403 is set', function () {
+                    $httpBackend.expectGET(CONST.API_URL + '/test-endpoint',
+                        {'Accept': 'application/json, text/plain, */*'}
+                    ).respond(401);
+
+                    $http.get(CONST.API_URL + '/test-endpoint', { params: { ignore403: true} }).then(angular.noop, angular.noop);
+
+                    $httpBackend.flush();
+                });
             });
         });
 
